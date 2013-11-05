@@ -1,0 +1,34 @@
+<div id='main_body'>
+<h4><%=t('Template Info')%> - <%=@type.name %></h4>
+
+<p>
+  <b>名称:</b>
+  <%= @template.name %>
+</p>
+<p>
+  <b>项目类型:</b>
+  <%= @type.name %>
+</p>  
+<p>
+  <b>生成日期:</b>
+  <%= (@template.created_at + 8.hours).strftime("%Y/%m/%d") %>
+</p> 
+<p>
+  <b>输入/更新:</b>
+  <%= @template.last_updated_by.name %>
+</p>
+<p>
+  <b>所属任务：</b>
+  <% @template.template_items.order("execution_order, execution_sub_order").each do |t| %>
+    <p><b>任务#：<%= t.execution_order %>.<%= t.execution_sub_order if t.execution_sub_order.present? %></b></p>
+    <p>名称：<%= t.task_definition.name %></p>
+    <p>简注：<%= t.brief_note %></p>
+    <p>前任务完成后方可开始：<%= t.start_before_previous_completed ? '是' : '否' %></p>
+    <p>申请：<%= t.need_request ? '是' : '否'%></p>
+  <% end %>
+</p>
+
+
+<%= link_to t('Back'), SUBURI + "/authentify/view_handler?index=0", :class => BUTTONS_CLS['action'] %>
+  &nbsp;&nbsp;<%= link_to t('New Template'), SUBURI + "/authentify/view_handler?index=1&url=#{new_template_path(:type_id => @type.id)}", :class => BUTTONS_CLS['action'] if has_action_right?('create', params[:controller]) %>
+</div>

@@ -1,0 +1,15 @@
+<%= simple_form_for(@template) do |f| %>
+  <%= f.input :name, :label => '模版名称：' %>
+  <%= f.input :instruction, :label => '模版介绍：', :input_html => {:rows => 3} %>
+  <%= f.input :ranking_order, :label => t('Ranking Index'), :placehoder => '1, 2, 3 ...'%>
+  &nbsp;&nbsp;所属任务（按执行先后次序排列。相同序号任务表示同时执行）：
+  <%= f.fields_for :template_items, @template.template_items.first do |builder| %>
+    <p><%= render('first_task_templates', :f => builder) %></p>  
+  <% end %> 
+  <%= f.fields_for :template_items, TaskTemplatex::TemplateItem.where(:template_id => @template.id).offset(1) do |builder| %> 
+    <p><%= render('template_items', :f => builder) %></p> 
+  <% end if @template.template_items.size > 1 %> 
+  <p><%= link_to_add_fields "加选任务", f, :template_items %></p>
+  
+  <p><%= f.button :submit, '保存' , :class => BUTTONS_CLS['action']%></p>
+<% end %>
