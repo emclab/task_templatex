@@ -1,3 +1,7 @@
+<% if false %>
+  <%= render inline: ERB.new(@erb_code).result(binding) %>
+  
+<% else %>
 <%= simple_form_for(@template) do |f| %>
   <%= f.input :name, :label => '模版名称：' %>
   <%= f.input :instruction, :label => '模版介绍：', :input_html => {:rows => 3} %>
@@ -11,5 +15,8 @@
   <% end if @template.template_items.size > 1 %> 
   <p><%= link_to_add_fields "加选任务", f, :template_items %></p>
   
-  <p><%= f.button :submit, '保存' , :class => BUTTONS_CLS['action']%></p>
+  <%= link_to t('Back'), SUBURI + "/authentify/view_handler?index=0", :class => BUTTONS_CLS['action'] %>
+  <%= f.button :submit, '保存' , :class => BUTTONS_CLS['action']%>
+<% end %>
+
 <% end %>
