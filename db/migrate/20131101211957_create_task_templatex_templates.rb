@@ -2,9 +2,9 @@ class CreateTaskTemplatexTemplates < ActiveRecord::Migration
   def change
     create_table :task_templatex_templates do |t|
       t.string :name
-      t.integer :type_id
-      t.boolean :active, :default => true
+      t.integer :type_id      
       t.integer :last_updated_by_id
+      t.boolean :active, :default => true
       t.text :instruction
       t.integer :ranking_order
 
