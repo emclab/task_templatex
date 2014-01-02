@@ -8,7 +8,7 @@
   <%= f.input :ranking_order, :label => t('Ranking Index'), :placehoder => '1, 2, 3 ...'%>
   &nbsp;&nbsp;所属任务（按执行先后次序排列。相同序号任务表示同时执行）：
   <%= f.fields_for :template_items, @template.template_items.first do |builder| %>
-    <p><%= render('first_task_templates', :f => builder) %></p>  
+    <p><%= render('first_template_items', :f => builder) %></p>  
   <% end %> 
   <%= f.fields_for :template_items, TaskTemplatex::TemplateItem.where(:template_id => @template.id).offset(1) do |builder| %> 
     <p><%= render('template_items', :f => builder) %></p> 
