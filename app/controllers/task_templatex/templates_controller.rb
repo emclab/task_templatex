@@ -10,12 +10,14 @@ module TaskTemplatex
       @templates = params[:task_templatex_templates][:model_ar_r]
       @templates = @templates.where(:type_id => params[:type_id]) if @type
       @templates = @templates.page(params[:page]).per_page(@max_pagination) 
+      @erb_code = find_config_const('template_index_view', 'task_templatex')
     end
   
     def new
       @title = 'New Template'
       @template = TaskTemplatex::Template.new()
       @template.template_items.build()
+      @erb_code = find_config_const('template_new_view', 'task_templatex')
     end
   
     def create
@@ -32,6 +34,7 @@ module TaskTemplatex
     def edit
       @title = 'Edit Template'
       @template = TaskTemplatex::Template.find_by_id(params[:id])
+      @erb_code = find_config_const('template_edit_view', 'task_templatex')
     end
   
     def update
@@ -48,11 +51,13 @@ module TaskTemplatex
     def show
       @title = 'Template Info'
       @template = TaskTemplatex::Template.find_by_id(params[:id])
+      @erb_code = find_config_const('template_show_view', 'task_templatex')
     end
     
     protected
     def load_type
       @type = TaskTemplatex.type_class.find_by_id(params[:type_id]) if params[:type_id].present?
+      @type = TaskTemplatex.type_class.find_by_id(TaskTemplatex::Template.find_by_id(params[:id])) if params[:id].present?
     end
     
   end
